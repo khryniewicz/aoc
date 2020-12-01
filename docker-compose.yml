@@ -1,0 +1,16 @@
+version: '3'
+services:
+  dev:
+    command: >
+      clojure -Sdeps '{:deps {nrepl/nrepl {:mvn/version "0.8.3"}
+      cider/cider-nrepl {:mvn/version "0.25.5"}}}' -M -m nrepl.cmdline --bind
+      "0.0.0.0" --port 51234 --middleware '["cider.nrepl/cider-middleware"]'
+    image: clojure:tools-deps
+    ports:
+      - 51234:51234
+    volumes:
+      - ./deps.edn:/aoc/deps.edn
+      - ./resources:/aoc/resources
+      - ./src:/aoc/src
+      - ~/.m2:/root/.m2
+    working_dir: /aoc
