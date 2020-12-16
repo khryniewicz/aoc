@@ -5,10 +5,10 @@
 (defn memory-game [starting end]
   (loop [turn (count starting)
          recent (last starting)
-         memory (zipmap (butlast starting) (range 1 (count starting)))]
+         memory (transient (zipmap (butlast starting) (range 1 (count starting))))]
     (if (= turn end)
       recent
-      (recur (inc turn) (- turn (memory recent turn)) (assoc memory recent turn)))))
+      (recur (inc turn) (- turn (memory recent turn)) (assoc! memory recent turn)))))
 
 (def answer1 (memory-game input 2020))
 
